@@ -1,0 +1,28 @@
+* SecureServ * Version 3.0.a3
+==============================================================================
+Important information you should know: (READ THIS!)
+==============================================================================
+
+This is an alpha release. Not all features will work and there may be major 
+bugs in the software. This release is purely for us to get feedback on the new 
+version of NeoStats and should not be run on production networks. This release
+is ideal for users with test networks or those that want an opportunity to 
+help us develop the new version with feedback and suggestions. 
+
+No support is provided for this release so if you have problems and are unable 
+to resolve them using the provided documentation, you should use the supported 
+stable 2.5 series instead until NeoStats 3.0 is further along. 
+
+Bugs, requests and suggestions should be reported using the bug tracking 
+system. You must provide all information required as listed in the README 
+section on support or your entry will be removed.
+
+Settings and data files from 2.5.x will not work with 3.0. 
+
+Settings and data files for previous 3.0 alpha versions may not be compatible
+with this version. You should delete all files with "gdbm" in the filename
+from the directory ~/NeoStats 3.0/data before using this version.
+
+Known issues that we are aware of and should not be reported:
+
+* None at present

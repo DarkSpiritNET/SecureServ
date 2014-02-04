@@ -1,0 +1,10 @@
+1
+Mirc6ASCtime 0 0 0 ".*mIRC v6\.02 .*" "The Version of Mirc you are using has Security Problems. You Should Upgrade your MIRC ASAP" 3
+Mirc6ASCtime01 0 0 0 ".*mIRC v6\.01 .*" "The Version of Mirc you are using has Security Problems. You Should Upgrade ASAP." 3
+Mirc6ASCtime00 0 0 0 ".*mIRC v6\.0 .*" "The Version of Mirc you are using has Security Problems. You Should Upgrade ASAP" 3
+Mirc6DCC01 0 0 0 ".*mIRC v6\.01 .*" "The Version of Mirc you are using has Security Issues. We Suggest you upgrade your copy of MIRC" 3
+Mirc6DCC00 0 0 0 ".*mIRC v6\.0 .*" "Your Version of Mirc has Security Issues. We Recomend that you Upgrade your copy of MIRC" 3
+Mirc5BUF 0 0 0 ".*mIRC32 v5.*" "The Version of Mirc you are using has Serious Security issues. We STRONGLY recomend you upgrade your copy of Mirc" 3
+Mirc4BUF 0 0 0 ".*(mIRC32 v4)|(mIRC32 v3)|(mIRC32 v3).*" "Your copy of Mirc is Extremly Old and has Several Serious Security Issues, You Should upgrade ASAP" 3
+IRCSpam 1 0 0 ".*\/server.*" "Spamming other IRC networks is considered Bad. The IRCOperators have been Notified" 2
+HTTPSpam 1 0 0 ".*visit.*http:\/\/.*" "Sending People URL's when they don't reque t it is bad. IRCops have been warned of your actions." 2

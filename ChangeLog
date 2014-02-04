@@ -1,0 +1,196 @@
+SecureServ Module for NeoStats Changelog.
+Fish (F), Mark (M), DeadNotBuried (D)
+==============================================================================
+3.0.b1-dev
+ - Don't kill Operators that are detected with a virus (F)
+ - add new monchan to db only instead of resaving entire list (D)
+ - remove monchans from db on delete (D)
+3.0.a3-dev - Mark (M)
+ - SecureServ now uses the NeoNet infra to send reports back to
+   secure.irc-chat.net (F)
+ - Use new core ctcp request/reply system. (M)
+ - if Core version checking is disabled, but secureserv versionscan is
+   enabled, then ctcp requests come from SecureServ (F)
+ - secure.irc-chat.net update reports now moved to core (F)
+ - Fix up dns_lookup prototype (F)
+ - we send IP address, not hostname, to secure.irc-chat.net to aid for DNSBL support (F)
+ - Update to FetchRows handlers to take size parameter. (M)
+ - Fix auth level for username and password. (M)
+ - stop channels being scanned when global exclude list enabled and
+   channel is on global exclude list (D)
+ - TREATCHANMSGASPM is now a configuration option to avoid the run time 
+   overhead of warnings for use of the option. (M)
+ - Fix make install when NeoStats is installed in a non-default location (F)
+
+3.0.a2 - Mark (M)
+ - Add option to use NeoStats global excludes with SecureServ. Based on an 
+   idea contributed by DeadNotBuried. (M)
+ - Fix bug with shutdown/unload connected to onjoin bots. (M)
+ - Update settings table to a2 compatible format. (M)
+ - Split SET UPDATEINFO into SET UPDATEUSER and SET UPDATEPASS. (M)
+ - Add AUTOUPDATETIME setting so users can choose the interval at which
+   SecureServ checks for dat file updates. (D)
+ 
+3.0.a1 - Mark (M) 23 Feb 2005
+ - Add preliminary support for topic message scans. (M)
+ - Update module to use new core module exclusion support. (M)
+ - Add preliminary support for away message and quit message scans. (M)
+ - Change virus storage to multiple lists to optimise scanning process. (M)
+ - Add error checks for det and act types in load. (M)
+ - Change status command to report in tabular format. (M)
+ - Removed splittime setting which is now handled by core. (M)
+ - Move GetRandomChan function to core. (M)
+ - Move hrand function to core. (M)
+ - Optimise onjoin and mon bots to store and use a bot pointer (M)
+ - Make helper system optional (M)
+ - Optimise helper system based on moddata (M)
+ - Remove flood check code, this is now handled by a new module FloodServ (M)
+ - Port to 3.0 API and Win32 (M)
+
+1.3 - Fish (F) and Mark (M) - 27 Aug, 2004
+ - Fix bug 183 - secureserv echoing messages for other module bots. (M)
+ - Fix bug 190 - wrong message displayed for chan message off. (M)
+ - Fix bug 176 - monchans and excludes (M)
+ - Ported to core command processor (M)
+ - SET interface for nick/user/host/realname added (M)
+ - Fix for bug 115, monchan bots now reinit if killed (M)
+ - Add set option for onjoin bot modes so users can specify their own modes (M)
+ - OnJoin bots will now leave channels when the last user leaves (M)
+ - Add a KILL action for viri. Useful to keep the akill list manageable by not 
+   adding bots that do not rejoin after kill (e.g. WebCamSpam) (M)
+ - use Match rather than fnmatch to avoid case sensitivity problems with modules (F)
+
+1.2 - Fish (F) and Mark (M) - 12 Feb, 2004
+ - Fix up a monbot channel cycle crash (M)
+ - Scan All channels names in the online function, so we can catch bad channels
+   after we link (F)
+ - CheckChan now also scans the channel name against the list (F)
+ - We now try to read nick, user, host and realname so these can be configured more 
+   easily (M)
+ - Change the MonChanCycle so all channels are cycled at the same time (F)
+ - CheckLockChan timer changed to 60 seconds from 10 to reduce load a little (M)
+ - Fix finduser call with NULL when lastnick is NULL (M)
+
+1.1 - Fish (F) and Mark (M) - 2 Dec, 2003
+ - Fixed incorrect parameters to printf style functions (M)
+ - Remove unused MODE_ defines. If needed they should be in the core anyway (M)
+ - Made startup messages obey verbose setting (M)
+ - Use more appropriate defines for buffer sizes since MAXHOST differs between IRCds (M)
+ - Fix for bug 96 (multiple monbots) (M)
+ - Fixed bug with helper kill messages (virus name and helper name were reversed) (M)
+ - Replace channel join calls with more portable join_bot_to_chan function (M)
+ - Fixed bug with helper delete using MAXNICK instead of correct buffer size (M)
+ - Updated conf buffers to use CONFBUFSIZE (M)
+ - Fix free() position in Helpers_init (M)
+ - Nick flood code tidied up and moved to floodcheck.c (M)
+ - Create #define DEFAULT_VERSION_RESPONSE so users can more easily change default version 
+   response of onjoin bots - should this be a config option? (M)
+ - Add hidden host support but ircd support required in core; this will also fix hostname 
+   problems found in 1.0 for ircds with UMODE_HIDE (+x) (M)
+ - Updated code to use new 2.5.11 ircd updates - SecureServ is now ircd independent (M)
+ - Generic scaning functions created for use by SecureServ to avoid repeating code (M)
+ - Scanning and related code move to scan.c (M)
+ - Generic get bot and get channel functions created for onjoin bot use (M)
+ - Tidy up of some code to remove gotos and reduce repeated code (M)
+ - Tidy up config code and fix bug with onjoin bot initialisation freeing invalid pointer (M)
+ - exempt related code move to exempt.c (M)
+ - Tidy up bot_msg for future port to core function (M)
+ - Fix bot CTCP version replies; they should not come from SecureServ! (M)
+ - Fix missing fizzer status in SET LIST (M)
+ - Move update code into update.c; should help with porting to libcurl (M)
+ - Add system to report/log which onjoin bot received a given message (M)
+ - Added more SET_SEGV_LOCATION entries since we seem to have a lot of users without backtrace (M)
+ - Change onjoinbot/monbot quit message so it does not display "Module unloaded" (M)
+ - Make bot quit message configurable (M)
+ - Fix for bug 101 (onjoin bot crash when only one bot defined) (M)
+ - Change misnamed is_pub_chan check to is_priv_chan (M)
+ - Cycle MONCHANS option (F)
+ - New Option to also scan channel messages (F)
+ - New Set option to specify how many interval for monbots to cycle channels if enabled (F)
+ - MonBots will now Join/Part Monchans as they become active on the network (F)
+ - An option to treat channel messages as PM Messages when checking against viri list. its a IGOTLOTSOFCPU option! (F)
+ - Fix bugID# 121. /msg secureserv update fails when autoupdate is disabled (F)
+ - Fix a namespace clash with NeoStats exclude functions and SecureServ Exclude Funtions (F)
+ - Added support for upcomming netsplit detection in the Core Code (F)
+ - if we are using SecureServ netsplit detection (and not the NeoStats 2.5.15 method) and 
+   we continue to get netsplit users from a particular server (10 in a row) send a message 
+   to the channel warning about possible time issues (F) 
+ - Helpers ChangePassword function finally implemented (F)
+ - Fix a type found by Reed (F)
+
+1.0 - Fish (F) and Mark (M) - 22 Aug, 2003
+ - Fixed a problem with users signing off while NeoStats was still booting. (F)
+ - Fixed a typo in help set (BugID #42) (F)
+ - Fixed a problem with Exclude lists not being saved after a delete (BugID #41) (F)
+ - HTTP agent wasn't reporting correct version to website (F)
+ - Update segv code (M/F)
+ - Cleaned up help text and reformatted help to match the rest of NeoStats (M)
+ - Cleaned up old includes of <fnmatch.h> (M)
+ - Changed to use new module export API (M)
+ - Added missing NULL checks for finduser results to avoid referencing NULL pointers (M)
+ - Renamed output module to secureserv to fix load/unload issues (M)
+ - Don't do onjoin checks for channels monitored via a monbot (F)
+ - Don't lock a channel when its already locked (BugID: 45) (F)
+ - Fixed missing fclose call in load_dat (M)
+ - Added support for customviri.dat to allow local defintions that are not affected by viri.dat updates (M)
+ - A check to see if we have bots for Onjoin Checking. Fix |VIO|Maveric problem (F)
+ - Changed SET LIST to output setting names rather than descriptions (M)
+ - SecureServ will log positives and the action taken (M)
+ - Added RELOAD command to allow reloading of viri.dat and customviri.dat without restart (M)
+ - Fixed problem with pcre rebuilding tables when not necessary (M)
+ - Added BOTECHO option so onjoin bots can echo all PMs without the other info that verbose on reports (M)
+ - Ported to new optimised buffer safe string functions (M)
+ - Only compile in pcre if its not contained in NeoStats Core (F)
+ - if the IRCd we are using doesn't support SVSJOIN, use invite instead (LOL!) (F)
+ - Random Version replies for the Onjoin Bots. BugID: 71 (F)
+ - removed local libpcre stuff - this must now be present in core (M)
+ - Change of Join Chan timer no longer requires restart (M)
+ 
+0.9.4 - Fish - 20 Aug, 2003
+ - configure now checks for crypt.h (BugID: 37)
+ - fixed bots del command crashing neo when not enough args supplied (BugID: 39)
+ - fixed a stupid typo in helpers del command. Missing Nickname param. (BugID: 36)
+ - Fixed a Doco typo with monbots command
+
+0.9.3 - Fish - 07 June, 2003
+ - Found a few bugs with nickflood detection thanks to the logs from -=OrPhEuS=-
+ - added ident and host to akill message in #services chan.
+ - Forgot to put in /help set akilltime
+ - Kicks are now handled (Fixes that Hu, user isn't a part of xxx messages)
+ - Notices are now processed by the bots
+ - Check Exempts for PM's and Notices is now performed.
+ - Akill times can be set larger than 10,000 seconds now BUGID: 31
+ - Disabling Version check didn't actuall disable it. Fixed. BugID: 24
+ - Moved is_pub_chan into NeoStats core, as there is more checking than I though. BugID: 33
+ - Channel Locking is implemented
+ - Added a feature to enable admins to edit the botlist online
+ - Added the ability to assign bots to channels, to stay in there full time.
+ - SecureServ supports the new API version interface, and __ModInit, __ModFini function calls of NeoStats
+ - When a user joins a channel, user exemptions are checked as well as channel exemptions.
+ - Helper interface added, and SVSJOIN code now works!
+ - send an update when we get a positive to secure.irc-chat.net if we have an account 
+ - Helpers are automatically logged out if they go away (configurable)
+ - Helpers are automatically logged out if they quit/get killed
+ - SecureServ can join the help channel when the first helper logs in
+ - added an option to disable the update to secure.irc-chat.net if users are worried about privacy
+ - Assist command added to aid "helpers" deal with infected users
+ - compile fix for IRCd's that don't have CHANADMINS
+
+0.9.2 - Fish - 03 June, 2003
+ - Fixed the hash_insert problem that was crashing NeoStats. Was happening with NickChanges
+ - Fixed a type on the set verbose on message. 
+ - Fixed DoOnJoin Setting. 
+ - Added new option to not join Private Channels
+ - fixed a bug with trying to signoff virtual bots after they had already been signed off!
+ - Fixed a bug with IRCd's that use Tokens, and Version's not getting checked. Reported by Tank. 
+
+0.9.1 - Fish - 25 May, 2003
+ - Onjoin bot wasn't checking the last Onjoin Definition. Fixed. 
+ - Fixed a problem with Matched channels in new_chan code. Re-Arranged Join_Chan code instead.
+ - Fixed a problem with "Definitions count" after an update
+ - AutoUpgrade now works
+ - Messages received by the onjoinbot are now dumped into the logfile
+ - Fixed a problem with restoring some string settings
+ - Updated a bit the Channel Flood Checking. Now also checks the TS of the server to determine if its a flood.
+ - NickFlood Checking is now Enabled
+ - Changed the order of gotpositive to svsjoin/akill/warn/nothing

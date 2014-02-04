@@ -1,0 +1,130 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(SecureServ.c)
+AC_CONFIG_AUX_DIR(autotools)
+AM_CONFIG_HEADER(modconfig.h)
+AM_MAINTAINER_MODE
+MODPACKAGE=SecureServ
+MODULE_MAJOR=3
+MODULE_MINOR=0
+MODULE_REV=a4
+VERSION=$MODULE_MAJOR.$MODULE_MINOR.$MODULE_REV
+AC_DEFINE_UNQUOTED(MODULE_VERSION, "$VERSION", "Complete Module Version")
+AC_DEFINE_UNQUOTED(MODULE_MAJOR, $MODULE_MAJOR, "Major Module Version")
+AC_DEFINE_UNQUOTED(MODULE_MINOR, $MODULE_MINOR, "Minor Module Version")
+AC_DEFINE_UNQUOTED(MODULE_REV, $MODULE_REV, "Module Revision")
+DIRINST=~/NeoStats3.0/
+AC_PREFIX_DEFAULT(~/NeoStats3.0/)
+AM_INIT_AUTOMAKE($MODPACKAGE, $VERSION)
+#AM_INIT_AUTOMAKE("","")
+CFLAGS="$CFLAGS -O2 -fno-strict-aliasing"
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_INSTALL 
+AC_DISABLE_STATIC
+CARES_CLEAR_LIBTOOL_TAGS
+AC_PROG_LIBTOOL
+
+AC_MSG_CHECKING(Location of NeoStats...)
+AC_ARG_WITH(neostats, 
+[  --with-neostats=DIR	  Location of NeoStats installation],
+[DIRINST=$withval])
+AC_MSG_RESULT($DIRINST)
+
+AC_CHECK_FILE($DIRINST/include/neostats.h, 
+[INCLUDEDIR="$DIRINST/include/"], 
+[AC_MSG_ERROR(Can't find existing NeoStats Installation please supply with --with-neostats option)])
+
+CPPFLAGS="$CPPFLAGS -I$INCLUDEDIR"
+dnl Check we are running the latest supported version of NeoStats
+AC_MSG_CHECKING(Version of NeoStats...)
+AC_TRY_RUN(
+[
+#include <config.h>
+#include <stdlib.h>
+int main(void) {
+	if (MAJOR >= 3) {
+		if (MINOR >= 0) {
+			exit(0);
+		}
+	}
+	exit(1);
+}
+],	ns_version_ok='yes',
+	ns_version_ok='no',
+	ns_version_ok='no')
+if test "$ns_version_ok" = "yes"; then
+	AC_MSG_RESULT(Compatible version);
+	prefix=$DIRINST
+else
+	AC_MSG_ERROR(This module requires NeoStats 3.0.a3-dev or higher)
+fi
+
+dnl check if we are running with debug....
+AC_MSG_CHECKING(Whether to enable debug...)
+AC_ARG_ENABLE(debug,
+[ --enable-debug - enable debug],
+[ case "$enableval" in
+  yes)
+        CFLAGS="$CFLAGS -Wall -ggdb"
+	AC_DEFINE(DEBUG, "1", "Enable Debugging")
+        AC_MSG_RESULT(yes)
+        ;;
+  *)
+        AC_MSG_RESULT(no)
+        ;;
+  esac],
+AC_MSG_RESULT(no)
+)
+
+AC_MSG_CHECKING(whther to enable TREATCHANMSGASPM)
+AC_ARG_ENABLE(raw, [  --enable-treatchanmsgaspm - Enable TREATCHANMSGASPM],
+[ case "$enableval" in
+  yes)
+	AC_DEFINE(USE_RAW, 1, 'allow TREATCHANMSGASPM')
+	AC_MSG_RESULT(yes)
+	;;
+  *)
+	AC_MSG_RESULT(no)
+	;;
+esac],
+AC_MSG_RESULT(no)
+)
+
+
+wi_ARG_DISABLE_CCDV
+wi_PROG_CCDV
+
+AC_MSG_CHECKING(To Enable AutoTools Debug Mode?)
+AC_ARG_ENABLE(autodebug, [  --enable-autodebug - Enable AutoTools Debug],
+[ case "$enableval" in
+  yes)
+        AC_MSG_RESULT(yes)
+        ;;
+  *)
+        AC_MSG_RESULT(no)
+        AX_MAINTAINER_MODE_AUTO_SILENT
+        ;;
+esac],
+AC_MSG_RESULT(no)
+AX_MAINTAINER_MODE_AUTO_SILENT
+)
+
+CFLAGS="$CFLAGS -DBUILDINGMOD"
+
+AX_DISTVERSION
+
+AC_SUBST(DIRINST)
+AC_SUBST(CFLAGS)
+AC_SUBST(LDFLAGS)
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+AC_SUBST(LIBTOOL_DEPS)
+AC_SUBST(CCDV)
+AC_OUTPUT(Makefile)
+echo "Configuration complete."
+read -p "Press Enter key to read the release notes"
+clear
+more RELNOTES
+echo "Run 'make' (or 'gmake' on some systems) to compile NeoStats."
+echo "If you require support, see the README file."
